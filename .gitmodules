@@ -1,0 +1,6 @@
+[submodule "sensor_test/ev3dev-lang"]
+	path = sensor_test/ev3dev-lang
+	url = git@github.com:lbromo/ev3dev-lang.git
+[submodule "ev3dev-lang"]
+	path = ev3dev-lang
+	url = git@github.com:lbromo/ev3dev-lang.git
