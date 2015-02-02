@@ -7,6 +7,7 @@ motor = LargeMotor()
 
 while(True):
     if(ts.is_pushed):
-        motor.run_position_limited(90, 100)
-        time.sleep(0.5)
-        motor.run_position_limited(-90, 100)
+        motor.reset()
+        motor.run_position_limited(90, 1000)
+        time.sleep(1)
+        motor.run_position_limited(-90, 1000)
