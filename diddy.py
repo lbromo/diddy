@@ -31,13 +31,13 @@ def runRandomly(direction = 0):
     #drive_for(motorLeft, motorRight, dir = direction, power = 100)
 
 def logStatus():
-    pp.pprint([colorSensor.value()])
+    pp.pprint([colorSensor.reflect])
 
 while(True):
     # LOGGING
     logStatus()
     # EVENTS
-    if colorSensor.reflect() < blackLimit:
+    if colorSensor.reflect < blackLimit:
         print "LINE DETECTED!"
     if frontTouchSensor.isPushed:
         print "FRONT BUMPER - ATTACK!!!"
