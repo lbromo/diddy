@@ -44,4 +44,4 @@ while(True):
     if backTouchSensor.is_pushed:
         print "BACK BUMPER - ATTACK!!!"
     # DRIVE
-    #runRandomly()
+    runRandomly()
