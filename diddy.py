@@ -27,8 +27,8 @@ gyroSensor = GyroSensor(4)
 pp = pprint.PrettyPrinter(indent=1)
 
 def runRandomly(direction = 0):
-    motorRight.run_forever(100 + direction)
-    motorLeft.run_forever(100 - direction)
+    motorRight.run_forever(50 + direction)
+    motorLeft.run_forever(50 - direction)
 
 def logStatus():
     pp.pprint([colorSensor.reflect, frontTouchSensor.is_pushed, backTouchSensor.is_pushed])
