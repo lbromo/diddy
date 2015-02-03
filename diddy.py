@@ -11,6 +11,7 @@ import pprint, signal
 # SETUP MOTORS
 motorRight = LargeMotor('A')
 motorLeft  = LargeMotor('B')
+attackBack = LargeMotor('C')
 
 # SETUP TOUCH SENSORS
 frontTouchSensor = TouchSensor(1)
@@ -37,7 +38,6 @@ def suicide(signal, frame):
     print "YOU KILLED HER!"
     motorRight.stop()
     motorLeft.stop()
-    sys.exit(0)
 
 signal.signal(signal.SIGINT, suicide)
 
@@ -53,3 +53,4 @@ while(True):
         print "FRONT BUMPER - ATTACK!!!"
     if backTouchSensor.is_pushed:
         print "BACK BUMPER - ATTACK!!!"
+        attackBack.run_position_limited(90, 100)
