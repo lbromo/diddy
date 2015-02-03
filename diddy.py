@@ -1,6 +1,6 @@
 # DIDDY; THE LEGO ROBOT SLAYER OF DOOM
 
-# - køre tilfældigt
+# - koere tilfaeldigt
 # - detektere sort streg / bord kant / ikke falde ned
 # - defence / attack  mechanism
 
