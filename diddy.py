@@ -8,13 +8,6 @@ from ev3.lego import *
 from time import sleep
 import pprint, signal
 
-signal.signal(signal.SIGINT, suicide)
-
-def suicide():
-    print "YOU KILLED HER!"
-    motorRight.stop()
-    motorLeft.stop()
-
 # SETUP MOTORS
 motorRight = LargeMotor('A')
 motorLeft  = LargeMotor('B')
@@ -52,3 +45,11 @@ while(True):
         print "BACK BUMPER - ATTACK!!!"
     # DRIVE
     runRandomly()
+
+
+def suicide():
+    print "YOU KILLED HER!"
+    motorRight.stop()
+    motorLeft.stop()
+
+signal.signal(signal.SIGINT, suicide)
