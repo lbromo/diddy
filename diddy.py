@@ -33,10 +33,11 @@ def runRandomly(direction = 0):
 def logStatus():
     pp.pprint([colorSensor.reflect, frontTouchSensor.is_pushed, backTouchSensor.is_pushed])
 
-def suicide():
+def suicide(signal, frame):
     print "YOU KILLED HER!"
     motorRight.stop()
     motorLeft.stop()
+    sys.exit(0)
 
 signal.signal(signal.SIGINT, suicide)
 
