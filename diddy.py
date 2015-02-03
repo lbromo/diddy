@@ -46,9 +46,9 @@ while(True):
     # EVENTS
     if colorSensor.reflect < blackLimit:
         runRandomly(50)
+    else:
+        runRandomly()
     if frontTouchSensor.is_pushed:
         print "FRONT BUMPER - ATTACK!!!"
     if backTouchSensor.is_pushed:
         print "BACK BUMPER - ATTACK!!!"
-    # DRIVE
-    runRandomly()
