@@ -24,6 +24,7 @@ blackLimit = 75
 gyroSensor = gyro_sensor(INPUT_4)
 
 def runRandomly(direction = 0):
+    pass
     #drive_for(motorLeft, motorRight, dir = direction, power = 100)
 
 while(True):
