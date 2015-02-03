@@ -6,7 +6,14 @@
 
 from ev3.lego import *
 from time import sleep
-import pprint
+import pprint, signal
+
+signal.signal(signal.SIGINT, suicide)
+
+def suicide():
+    print "YOU KILLED HER!"
+    motorRight.stop()
+    motorLeft.stop()
 
 # SETUP MOTORS
 motorRight = LargeMotor('A')
@@ -27,8 +34,8 @@ gyroSensor = GyroSensor(4)
 pp = pprint.PrettyPrinter(indent=1)
 
 def runRandomly(direction = 0):
-    motorRight.run_forever(100)
-    motorLeft.run_forever(100)
+    motorRight.run_forever(100 + direction)
+    motorLeft.run_forever(100 - direction)
 
 def logStatus():
     pp.pprint([colorSensor.reflect, frontTouchSensor.is_pushed, backTouchSensor.is_pushed])
@@ -38,7 +45,7 @@ while(True):
     logStatus()
     # EVENTS
     if colorSensor.reflect < blackLimit:
-        print "LINE DETECTED!"
+        runRandomly(50)
     if frontTouchSensor.is_pushed:
         print "FRONT BUMPER - ATTACK!!!"
     if backTouchSensor.is_pushed:
