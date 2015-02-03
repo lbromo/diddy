@@ -4,8 +4,7 @@
 # - detektere sort streg / bord kant / ikke falde ned
 # - defence / attack  mechanism
 
-from ev3dev import *
-from ev3dev_utils.motors import *
+from ev3.lego import *
 from time import sleep
 import pprint
 
@@ -14,16 +13,15 @@ import pprint
 #motorLeft  = dc_motor(OUTPUT_B)
 
 # SETUP TOUCH SENSORS
-frontTouchSensor = touch_sensor(INPUT_1)
-backTouchSensor  = touch_sensor(INPUT_2)
+frontTouchSensor = TouchSensor(1)
+backTouchSensor  = TouchSensor(2)
 
 # SETUP COLOR SENSOR
-colorSensor = color_sensor(INPUT_3)
-colorSensor.mode = color_sensor.mode_reflect
+colorSensor = ColorSensor(3)
 blackLimit = 15
 
 # SETUP GYRO
-gyroSensor = gyro_sensor(INPUT_4)
+gyroSensor = GyroSensor(4)
 
 # PP
 pp = pprint.PrettyPrinter(indent=1)
@@ -39,11 +37,11 @@ while(True):
     # LOGGING
     logStatus()
     # EVENTS
-    if colorSensor.value() < blackLimit:
+    if colorSensor.reflect() < blackLimit:
         print "LINE DETECTED!"
-    if frontTouchSensor.value():
+    if frontTouchSensor.isPushed:
         print "FRONT BUMPER - ATTACK!!!"
-    if backTouchSensor.value():
+    if backTouchSensor.isPushed:
         print "BACK BUMPER - ATTACK!!!"
     # DRIVE
-    runRandomly()
+    #runRandomly()
