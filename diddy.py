@@ -33,6 +33,13 @@ def runRandomly(direction = 0):
 def logStatus():
     pp.pprint([colorSensor.reflect, frontTouchSensor.is_pushed, backTouchSensor.is_pushed])
 
+def suicide():
+    print "YOU KILLED HER!"
+    motorRight.stop()
+    motorLeft.stop()
+
+signal.signal(signal.SIGINT, suicide)
+
 while(True):
     # LOGGING
     logStatus()
@@ -45,11 +52,3 @@ while(True):
         print "BACK BUMPER - ATTACK!!!"
     # DRIVE
     runRandomly()
-
-
-def suicide():
-    print "YOU KILLED HER!"
-    motorRight.stop()
-    motorLeft.stop()
-
-signal.signal(signal.SIGINT, suicide)
