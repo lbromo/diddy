@@ -6,6 +6,7 @@
 
 from ev3dev import *
 from ev3dev_utils.motors import *
+from time import sleep
 
 # SETUP MOTORS
 #motorRight = dc_motor(OUTPUT_A)
@@ -28,8 +29,6 @@ def runRandomly(direction = 0):
     #drive_for(motorLeft, motorRight, dir = direction, power = 100)
 
 while(True):
-    if colorSensor.value() > blackLimit:
-        #TURN 180 deg
-        print 'DREEEJJJJ'
-
+    print colorSensor.value()
+    sleep(0.1)
     runRandomly()
