@@ -26,7 +26,7 @@ gyroSensor = gyro_sensor(INPUT_4)
 def runRandomly(direction = 0):
     #drive_for(motorLeft, motorRight, dir = direction, power = 100)
 
-while(True)
+while(True):
     if colorSensor.value() > blackLimit:
         #TURN 180 deg
         print 'DREEEJJJJ'
