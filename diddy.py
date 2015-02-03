@@ -18,7 +18,7 @@ from ev3dev_utils.motors import *
 # SETUP COLOR SENSOR
 colorSensor = color_sensor(INPUT_3)
 colorSensor.mode = color_sensor.mode_reflect
-blackLimit = 75
+blackLimit = 15
 
 # SETUP GYRO
 gyroSensor = gyro_sensor(INPUT_4)
