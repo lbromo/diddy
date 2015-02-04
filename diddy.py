@@ -3,6 +3,7 @@
 # DIDDY; THE LEGO ROBOT SLAYER OF DOOM
 
 from ev3.lego import *
+from ev3.ev3dev import *
 from time import sleep
 import pprint, signal, sys
 
