@@ -41,8 +41,8 @@ def lineTrack(ref):
     pp.pprint([out, error, u])
 
     # Apply to motors
-    motorRight.run_forever(SPEED - u)
-    motorLeft.run_forever(SPEED + u)
+    motorRight.run_forever(SPEED + u)
+    motorLeft.run_forever(SPEED - u)
 
 def logStatus():
     pp.pprint([colorSensor.reflect])
