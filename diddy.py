@@ -1,56 +1,42 @@
 # DIDDY; THE LEGO ROBOT SLAYER OF DOOM
 
-# - koere tilfaeldigt
-# - detektere sort streg / bord kant / ikke falde ned
-# - defence / attack  mechanism
-
 from ev3.lego import *
 from time import sleep
-import pprint, signal
+import pprint, signal, sys
 
 # SETUP MOTORS
-motorRight = LargeMotor('A')
+motorRight = LargeMotor('C')
 motorLeft  = LargeMotor('B')
-attackBack = LargeMotor('C')
-
-# SETUP TOUCH SENSORS
-frontTouchSensor = TouchSensor(1)
-backTouchSensor  = TouchSensor(2)
 
 # SETUP COLOR SENSOR
-colorSensor = ColorSensor(3)
+colorSensor = ColorSensor(1)
 blackLimit = 15
-
-# SETUP GYRO
-gyroSensor = GyroSensor(4)
 
 # PP
 pp = pprint.PrettyPrinter(indent=1)
 
-def runRandomly(direction = 0):
-    motorRight.run_forever(50 + direction)
-    motorLeft.run_forever(50 - direction)
+def lineTrack(ref, Kp, Ki, Kd):
+    # Controller
+    out = colorSensor.reflect
+    error = ref - out
+    u = error * Kp
+    # Apply to motors
+    motorRight.run_forever(SPEED - u)
+    motorLeft.run_forever(SPEED + u)
 
 def logStatus():
-    pp.pprint([colorSensor.reflect, frontTouchSensor.is_pushed, backTouchSensor.is_pushed])
+    pp.pprint([colorSensor.reflect])
 
 def suicide(signal, frame):
     print "YOU KILLED HER!"
     motorRight.stop()
     motorLeft.stop()
+    sys.exit(0)
 
 signal.signal(signal.SIGINT, suicide)
 
 while(True):
     # LOGGING
     logStatus()
-    # EVENTS
-    if colorSensor.reflect < blackLimit:
-        runRandomly(50)
-    else:
-        runRandomly()
-    if frontTouchSensor.is_pushed:
-        print "FRONT BUMPER - ATTACK!!!"
-    if backTouchSensor.is_pushed:
-        print "BACK BUMPER - ATTACK!!!"
-        attackBack.run_position_limited(90, 100)
+    # Line Tracking
+    lineTrack(17, 10, 0, 0)
