@@ -10,7 +10,7 @@ import pprint, signal, sys
 # SETUP MOTORS
 motorRight = LargeMotor('C')
 motorLeft  = LargeMotor('B')
-SPEED = 50
+SPEED = 80
 
 # SETUP COLOR SENSORS
 colorSensor = ColorSensor(1)
@@ -21,7 +21,7 @@ MAGIC_NUMBER = 17
 diddyKeyboard = Key()
 
 # CONTROLLER RELATED
-Kp = 0.5
+Kp = 0.75
 Ki = 0
 Kd = 0
 errorSum = 0
@@ -37,11 +37,12 @@ def lineTrack(ref):
     errorSum = errorSum + error
     u = error * Kp + errorSum * Ki
 
-    # Limit output
-    if u > 50:
-        u = 50
-    elif u < -50:
-        u = -50
+    # Limit output to maximum output
+    maxOutput = 100 - SPEED
+    if u > maxOutput:
+        u = maxOutput
+    elif u < -maxOutput:
+        u = -maxOutput
 
     # Logging
     #pp.pprint([out, error, u, ])
