@@ -70,5 +70,5 @@ while(True):
     lineTrack(17)
     if diddyKeyboard.backspace:
         suicide(None, None)
-    if cornerDetected():
-        turnRight()
+    #if cornerDetected():
+    #   turnRight()
