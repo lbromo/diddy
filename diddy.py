@@ -158,13 +158,13 @@ while(True):
 
     if incoming() == "front" or incoming() == "back":
         #print "INCOMING - FRONT!", frontUltrasonicSensor.dist_cm
-        SPEED = 60
-        Kp = 0.85
+        #SPEED = 30
+        #Kp = 0.6
         diddyLED.left.on()
         diddyLED.right.on()
     else:
-        SPEED = 30
-        Kp = 0.6
+        #SPEED = 30
+        #Kp = 0.6
         diddyLED.left.off()
         diddyLED.right.off()
 
