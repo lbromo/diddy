@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 # DIDDY; THE LEGO ROBOT SLAYER OF DOOM
 
 from ev3.lego import *
