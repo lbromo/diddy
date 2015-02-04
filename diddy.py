@@ -107,7 +107,6 @@ diddyIsMaybeLost = False
 diddyIsLost = False
 
 while(True):
-    
     # Check state
     if not isBlack() and not cornerDetected():
         if (not diddyIsMaybeLost):
@@ -122,11 +121,11 @@ while(True):
 
     if diddyIsLost:
         print "LOST - RUN STRAIGHT"
-        motorRight.run_forever(30)
-        motorLeft.run_forever(30)
+        motorRight.run_forever(50)
+        motorLeft.run_forever(50)
         if cornerSensor.reflect < 42:
             while not isBlack():
-                motorRight.run_forever(0)
+                motorRight.run_forever(-10)
                 motorLeft.run_forever(30)
             turnRight()
 
