@@ -26,7 +26,7 @@ def lineTrack(ref):
     # Controller
     out = colorSensor.reflect
     error = ref - out
-    errorSum += error
+    errorSum = errorSum + error
     u = error * Kp + errorSum * Ki
 
     
