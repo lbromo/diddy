@@ -77,12 +77,10 @@ def turnRight():
 def incoming():
     distFront = frontUltrasonicSensor.dist_cm
     distBack = backUltrasonicSensor.dist_cm / 10
-    if distFront <= 30 or distBack <= 30:
-        print "ALERT - INCOMING"
-        if distFront < distBack:
-            return 1
-        else:
-            return 2
+    if distFront < 30 or distBack < 30:
+        return True
+    else
+        return False
 
 def printLogo():
     print """
