@@ -4,6 +4,7 @@
 
 from ev3.lego import *
 from ev3.ev3dev import *
+from ev3.event_loop import *
 from time import sleep
 import pprint, signal, sys, time
 
@@ -81,6 +82,13 @@ def incoming():
         return True
     else:
         return False
+
+cond = lambda: True if frontUltrasonicSensor.dist_cm > 30 or (backUltrasonicSensor / 10) > 30 else False
+
+target_func = lambda: pp.pprint("I SEE A SOMETHING")
+
+evt_loop = EventLoop()
+evt_loop.register_condition(cond, target_func, repeat=True, count=-1)
 
 def printLogo():
     print """
