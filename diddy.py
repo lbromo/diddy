@@ -77,7 +77,7 @@ def turnRight():
 def incoming():
     distFront = frontUltrasonicSensor.dist_cm
     distBack = backUltrasonicSensor.dist_cm / 10
-    if distFront < 30 or distBack < 30:
+    if distFront < 15 or distBack < 15:
         return True
     else:
         return False
@@ -155,16 +155,16 @@ while(True):
 
 
     if incoming():
-        #print "INCOMING - FRONT!", frontUltrasonicSensor.dist_cm
+        print "INCOMING!!!!"
         #SPEED = 30
         #Kp = 0.6
-        diddyLED.left.on()
-        diddyLED.right.on()
-    else:
+        #diddyLED.left.on()
+        #diddyLED.right.on()
+    #else:
         #SPEED = 30
         #Kp = 0.6
-        diddyLED.left.off()
-        diddyLED.right.off()
+        #diddyLED.left.off()
+        #diddyLED.right.off()
 
     if diddyKeyboard.backspace:
         suicide(None, None)
