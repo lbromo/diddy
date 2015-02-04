@@ -113,7 +113,7 @@ while(True):
             print "FIRST TIME MAYBE LOST!"
             maybeLostTime = now()
             diddyIsMaybeLost = True
-        elif (diddyIsMaybeLost and now() > maybeLostTime + 500):
+        elif (diddyIsMaybeLost and now() > maybeLostTime + 1500):
             diddyIsLost = True
             print "LOST - RUN STRAIGHT"
             motorRight.run_forever(30)
