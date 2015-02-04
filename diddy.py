@@ -108,6 +108,7 @@ signal.signal(signal.SIGINT, suicide)
 printLogo()
 
 maybeLostTime = 0
+diddyIsMaybeLost = False
 
 while(True):
     # Line Tracking
