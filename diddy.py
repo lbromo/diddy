@@ -89,6 +89,7 @@ target_func = lambda: pp.pprint("I SEE A SOMETHING")
 
 evt_loop = EventLoop()
 evt_loop.register_condition(cond, target_func, repeat=True, count=-1)
+evt_loop.start()
 
 def printLogo():
     print """
