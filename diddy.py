@@ -156,17 +156,17 @@ while(True):
             turnRight()
 
 
-    if incoming() == "front" or incoming() == "back":
-        #print "INCOMING - FRONT!", frontUltrasonicSensor.dist_cm
-        #SPEED = 30
-        #Kp = 0.6
-        diddyLED.left.on()
-        diddyLED.right.on()
-    else:
-        #SPEED = 30
-        #Kp = 0.6
-        diddyLED.left.off()
-        diddyLED.right.off()
+    #if incoming() == "front" or incoming() == "back":
+    #    #print "INCOMING - FRONT!", frontUltrasonicSensor.dist_cm
+    #    #SPEED = 30
+    #    #Kp = 0.6
+    #    diddyLED.left.on()
+    #    diddyLED.right.on()
+    #else:
+    #    #SPEED = 30
+    #    #Kp = 0.6
+    #    diddyLED.left.off()
+    #    diddyLED.right.off()
 
     if diddyKeyboard.backspace:
         suicide(None, None)
