@@ -152,12 +152,12 @@ while(True):
 
 
     if incoming() == "front":
-        print "INCOMING - FRONT!"
+        print "INCOMING - FRONT!", frontUltrasonicSensor.dist_cm/10
         SPEED = 60
         Kp = 0.85
 
     if incoming() == "back":
-        print "INCOMING - BACK!"
+        print "INCOMING - BACK!", backUltrasonicSensor.dist_cm/10
         SPEED = 50
         Kp = 0.75
 
