@@ -22,20 +22,16 @@ diddyKeyboard = Key()
 
 # CONTROLLER RELATED
 Kp = 0.6
-Ki = 0
-Kd = 0
-errorSum = 0
 
 # PP
 pp = pprint.PrettyPrinter(indent = 1)
 
 def lineTrack(ref):
     global errorSum
-    # Controller
+    # Controller (proportional controller)
     out = colorSensor.reflect
     error = ref - out
-    errorSum = errorSum + error
-    u = error * Kp + errorSum * Ki
+    u = error * Kp
 
     # Limit output to maximum output
     maxOutput = 100 - SPEED
@@ -57,16 +53,23 @@ def cornerDetected():
     else:
         return False
 
+def isBlack():
+    if colorSensor.reflect < MAGIC_NUMBER:
+        return True
+    else:
+        return False
+
 def turnRight():
-    #motorRight.run_forever(-30)
-    #motorLeft.run_forever(-30)
-    #sleep(0.25)
-    motorRight.run_forever(-50)
-    motorLeft.run_forever(50)
-    sleep(0.5)
-    #while colorSensor.reflect > MAGIC_NUMBER:
-    #    motorRight.run_forever(-50)
-    #    motorLeft.run_forever(50)
+    if not isBlack():
+        while not isBlack():
+            motorRight.run_forever(-30)
+            motorLeft.run_forever(-30)
+            while isBlack():
+                pass
+    else:
+        motorRight.run_forever(-50)
+        motorLeft.run_forever(50)
+        sleep(0.5)
 
 def printLogo():
     print """
@@ -107,6 +110,9 @@ printLogo()
 while(True):
     # Line Tracking
     lineTrack(MAGIC_NUMBER)
+
+    # If not
+
     if diddyKeyboard.backspace:
         suicide(None, None)
     if cornerDetected():
