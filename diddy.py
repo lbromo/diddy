@@ -57,12 +57,15 @@ def cornerDetected():
         return False
 
 def turnRight():
-    motorRight.run_forever(-100)
-    motorLeft.run_forever(-100)
+    motorRight.run_forever(-30)
+    motorLeft.run_forever(-30)
     sleep(0.1)
-    while colorSensor.reflect > MAGIC_NUMBER:
-        motorRight.run_forever(-50)
-        motorLeft.run_forever(50)
+    motorRight.run_forever(-50)
+    motorLeft.run_forever(50)
+    sleep(0.25)
+    #while colorSensor.reflect > MAGIC_NUMBER:
+    #    motorRight.run_forever(-50)
+    #    motorLeft.run_forever(50)
 
 def suicide(signal, frame):
     print "YOU KILLED HER!"
