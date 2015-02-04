@@ -7,6 +7,7 @@ import pprint, signal, sys
 # SETUP MOTORS
 motorRight = LargeMotor('C')
 motorLeft  = LargeMotor('B')
+SPEED = 50
 
 # SETUP COLOR SENSOR
 colorSensor = ColorSensor(1)
