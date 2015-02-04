@@ -14,7 +14,7 @@ SPEED = 50
 
 # SETUP COLOR SENSORS
 colorSensor = ColorSensor(1)
-cornerSensor = ColorSensor(4)
+cornerSensor = LightSensor(4)
 
 # SETUP BUTTONS
 diddyKeyboard = Key()
@@ -70,5 +70,5 @@ while(True):
     lineTrack(17)
     if diddyKeyboard.backspace:
         suicide(None, None)
-    #if cornerDetected():
-    #   turnRight()
+    if cornerDetected():
+       turnRight()
