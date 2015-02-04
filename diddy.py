@@ -12,16 +12,20 @@ motorRight = LargeMotor('C')
 motorLeft  = LargeMotor('B')
 SPEED = 30
 
+# CONTROLLER
+Kp = 0.6
+
 # SETUP COLOR SENSORS
 colorSensor = ColorSensor(1)
 cornerSensor = LightSensor(4)
 MAGIC_NUMBER = 17
 
+# SETUP ULTRASONIC SENSORS
+frontUltrasonicSensor = UltrasonicSensor(2)
+backUltrasonicSensor = UltrasonicSensor(3)
+
 # SETUP BUTTONS
 diddyKeyboard = Key()
-
-# CONTROLLER RELATED
-Kp = 0.6
 
 # PP
 pp = pprint.PrettyPrinter(indent = 1)
@@ -31,6 +35,7 @@ def lineTrack(ref):
     # Controller (proportional controller)
     out = colorSensor.reflect
     error = ref - out
+    # Kp = 0.6
     u = error * Kp
 
     # Limit output to maximum output
@@ -63,6 +68,16 @@ def turnRight():
     motorRight.run_forever(-50)
     motorLeft.run_forever(50)
     sleep(0.5)
+
+def incoming():
+    distFront = frontUltrasonicSensor.dist_cm / 10
+    distBack = backUltrasonicSensor.dist_cm / 10
+    if distFront <= 30 or distBack <= 30:
+        print "ALERT - INCOMING"
+        if distFront < distBack:
+            return "front"
+        else:
+            return "back"
 
 def printLogo():
     print """
@@ -134,6 +149,17 @@ while(True):
         lineTrack(MAGIC_NUMBER)
         if cornerDetected():
             turnRight()
+
+
+    if incoming() == "front":
+        print "INCOMING - FRONT!"
+        SPEED = 60
+        Kp = 0.85
+
+    if incoming() == "back":
+        print "INCOMING - BACK!"
+        SPEED = 50
+        Kp = 0.75
 
     if diddyKeyboard.backspace:
         suicide(None, None)
