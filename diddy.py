@@ -68,6 +68,31 @@ def turnRight():
     #    motorRight.run_forever(-50)
     #    motorLeft.run_forever(50)
 
+def runDisplay():
+    print """
+                                  /
+                   __       //
+                   -\= \=\ //
+                 --=_\=---//=--
+               -_==/  \/ //\/--
+                ==/   /O   O\==--
+   _ _ _ _     /_/    \  ]  /--
+  /\ ( (- \    /       ] ] ]==-
+ (\ _\_\_\-\__/     \  (,_,)--
+(\_/                 \     \-
+\/      /       (   ( \  ] /)
+/      (         \   \_ \./ )
+(       \         \      )  \\
+(       /\_ _ _ _ /---/ /\_  \\
+ \     / \     / ____/ /   \  \\
+  (   /   )   / /  /__ )   (  )
+  (  )   / __/ '---`       / /
+  \  /   \ \             _/ /
+  ] ]     )_\_         /__\/
+  /_\     ]___\\
+ (___)
+    """
+
 def suicide(signal, frame):
     print "YOU KILLED HER!"
     motorRight.stop()
@@ -76,9 +101,11 @@ def suicide(signal, frame):
 
 signal.signal(signal.SIGINT, suicide)
 
+runDisplay()
+
 while(True):
     # Line Tracking
-    lineTrack(MAGIC_NUMBER)
+    #lineTrack(MAGIC_NUMBER)
     if diddyKeyboard.backspace:
         suicide(None, None)
     if cornerDetected():
