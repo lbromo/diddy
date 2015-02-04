@@ -160,13 +160,13 @@ while(True):
         #print "INCOMING - FRONT!", frontUltrasonicSensor.dist_cm
         SPEED = 60
         Kp = 0.85
-        led.left.on()
-        led.right.on()
+        diddyLED.left.on()
+        diddyLED.right.on()
     else:
         SPEED = 30
         Kp = 0.6
-        led.left.off()
-        led.right.off()
+        diddyLED.left.off()
+        diddyLED.right.off()
 
     if diddyKeyboard.backspace:
         suicide(None, None)
