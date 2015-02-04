@@ -21,9 +21,10 @@ def lineTrack(ref, Kp, Ki, Kd):
     out = colorSensor.reflect
     error = ref - out
     u = error * Kp
+    pp.pprint([out, error, u])
     # Apply to motors
-    motorRight.run_forever(SPEED - u)
-    motorLeft.run_forever(SPEED + u)
+    #motorRight.run_forever(SPEED - u)
+    #motorLeft.run_forever(SPEED + u)
 
 def logStatus():
     pp.pprint([colorSensor.reflect])
