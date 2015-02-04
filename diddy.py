@@ -85,7 +85,7 @@ def incoming():
 
 cond = lambda: True if frontUltrasonicSensor.dist_cm > 30 or (backUltrasonicSensor.dist_cm / 10) > 30 else False
 
-target_func = lambda: pp.pprint("I SEE A SOMETHING")
+target_func = lambda x: pp.pprint("I SEE A SOMETHING", x)
 
 evt_loop = EventLoop()
 evt_loop.register_condition(cond, target_func, repeat=True, count=-1)
