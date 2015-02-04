@@ -10,7 +10,7 @@ import pprint, signal, sys
 # SETUP MOTORS
 motorRight = LargeMotor('C')
 motorLeft  = LargeMotor('B')
-SPEED = 80
+SPEED = 30
 
 # SETUP COLOR SENSORS
 colorSensor = ColorSensor(1)
@@ -21,7 +21,7 @@ MAGIC_NUMBER = 17
 diddyKeyboard = Key()
 
 # CONTROLLER RELATED
-Kp = 2
+Kp = 0.6
 Ki = 0
 Kd = 0
 errorSum = 0
@@ -62,7 +62,7 @@ def turnRight():
     #motorLeft.run_forever(-30)
     #sleep(0.25)
     motorRight.run_forever(-50)
-    motorLeft.run_forever(0)
+    motorLeft.run_forever(50)
     sleep(0.5)
     #while colorSensor.reflect > MAGIC_NUMBER:
     #    motorRight.run_forever(-50)
