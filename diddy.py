@@ -48,7 +48,7 @@ def lineTrack(ref):
     motorLeft.run_forever(SPEED + u)
 
 def cornerDetected():
-    if cornerSensor.reflect < 42:
+    if cornerSensor.reflect < 42 and isBlack():
         return True
     else:
         return False
@@ -107,6 +107,8 @@ diddyIsMaybeLost = False
 diddyIsLost = False
 
 while(True):
+    
+    # Check state
     if not isBlack() and not cornerDetected():
         print "GREY.ALL.OVER!"
         if (not diddyIsMaybeLost):
@@ -115,12 +117,14 @@ while(True):
             diddyIsMaybeLost = True
         elif (diddyIsMaybeLost and now() > maybeLostTime + 1500):
             diddyIsLost = True
-            print "LOST - RUN STRAIGHT"
-            motorRight.run_forever(30)
-            motorLeft.run_forever(30)
     else:
         diddyIsMaybeLost = False
         diddyIsLost = False
+
+    if diddyIsLost:
+        print "LOST - RUN STRAIGHT"
+        motorRight.run_forever(30)
+        motorLeft.run_forever(30)
 
     if not diddyIsLost:
         lineTrack(MAGIC_NUMBER)
