@@ -68,7 +68,7 @@ def turnRight():
     #    motorRight.run_forever(-50)
     #    motorLeft.run_forever(50)
 
-def runDisplay():
+def printLogo():
     print """
                                   /
                    __       //
@@ -101,11 +101,12 @@ def suicide(signal, frame):
 
 signal.signal(signal.SIGINT, suicide)
 
-runDisplay()
+# PRINT LOGO
+printLogo()
 
 while(True):
     # Line Tracking
-    #lineTrack(MAGIC_NUMBER)
+    lineTrack(MAGIC_NUMBER)
     if diddyKeyboard.backspace:
         suicide(None, None)
     if cornerDetected():
