@@ -15,7 +15,7 @@ blackLimit = 15
 
 # CONTROLLER RELATED
 Kp = 0.5
-Ki = 0.1
+Ki = 0.01
 Kd = 0
 errorSum = 0
 
