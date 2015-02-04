@@ -70,7 +70,7 @@ def turnRight():
     sleep(0.5)
 
 def incoming():
-    distFront = frontUltrasonicSensor.dist_cm / 10
+    distFront = frontUltrasonicSensor.dist_cm
     distBack = backUltrasonicSensor.dist_cm / 10
     if distFront <= 30 or distBack <= 30:
         print "ALERT - INCOMING"
@@ -152,7 +152,7 @@ while(True):
 
 
     if incoming() == "front":
-        print "INCOMING - FRONT!", frontUltrasonicSensor.dist_cm/10
+        print "INCOMING - FRONT!", frontUltrasonicSensor.dist_cm
         SPEED = 60
         Kp = 0.85
 
