@@ -83,7 +83,7 @@ def incoming():
     else:
         return False
 
-cond = lambda x: True if frontUltrasonicSensor.dist_cm > 30 or (backUltrasonicSensor.dist_cm / 10) > 30 else False
+cond = lambda: True if frontUltrasonicSensor.dist_cm > 30 or (backUltrasonicSensor.dist_cm / 10) > 30 else False
 
 target_func = lambda: pp.pprint("I SEE A SOMETHING")
 
