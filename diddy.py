@@ -48,4 +48,4 @@ while(True):
     # LOGGING
     logStatus()
     # Line Tracking
-    lineTrack(17, 2, 0, 0)
+    lineTrack(17, 0.5, 0, 0)
