@@ -14,6 +14,7 @@ SPEED = 50
 
 # SETUP COLOR SENSORS
 colorSensor = ColorSensor(1)
+cornerSensor = ColorSensor(4)
 
 # SETUP BUTTONS
 diddyKeyboard = Key()
@@ -42,11 +43,19 @@ def lineTrack(ref):
         u = -50
 
     # Logging
-    pp.pprint([out, error, u])
+    #pp.pprint([out, error, u, ])
 
     # Apply to motors
     motorRight.run_forever(SPEED - u)
     motorLeft.run_forever(SPEED + u)
+
+def cornerDetected():
+    pp.pprint(cornerSensor.reflect)
+    return True
+
+def turnRight():
+    print "TURN... RIGHT!!!"
+    sleep(1)
 
 def suicide(signal, frame):
     print "YOU KILLED HER!"
@@ -61,3 +70,5 @@ while(True):
     lineTrack(17)
     if diddyKeyboard.backspace:
         suicide(None, None)
+    if cornerDetected():
+        turnRight()
