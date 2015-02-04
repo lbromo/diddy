@@ -13,14 +13,22 @@ SPEED = 50
 colorSensor = ColorSensor(1)
 blackLimit = 15
 
+# CONTROLLER RELATED
+Kp = 0.5
+Ki = 1
+Kd = 0
+errorSum = 0
+
 # PP
 pp = pprint.PrettyPrinter(indent=1)
 
-def lineTrack(ref, Kp, Ki, Kd):
+def lineTrack(ref):
     # Controller
     out = colorSensor.reflect
     error = ref - out
-    u = error * Kp
+    errorSum += error
+    u = error * Kp + errorSum * Ki
+
     
     if u > 50:
         u = 50
@@ -48,4 +56,4 @@ while(True):
     # LOGGING
     logStatus()
     # Line Tracking
-    lineTrack(17, 0.5, 0, 0)
+    lineTrack(17)
