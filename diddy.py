@@ -104,11 +104,9 @@ now = lambda: int(round(time.time() * 1000))
 
 maybeLostTime = 0
 diddyIsMaybeLost = False
+diddyIsLost = False
 
 while(True):
-    # Line Tracking
-    lineTrack(MAGIC_NUMBER)
-
     if not isBlack() and not cornerDetected():
         print "GREY.ALL.OVER!"
         if (not diddyIsMaybeLost):
@@ -116,13 +114,18 @@ while(True):
             maybeLostTime = now()
             diddyIsMaybeLost = True
         elif (diddyIsMaybeLost and now() > maybeLostTime + 500):
+            diddyIsLost = True
             print "LOST - RUN STRAIGHT"
             motorRight.run_forever(30)
             motorLeft.run_forever(30)
     else:
         diddyIsMaybeLost = False
+        diddyIsLost = False
+
+    if not diddyIsLost:
+        lineTrack(MAGIC_NUMBER)
+        if cornerDetected():
+            turnRight()
 
     if diddyKeyboard.backspace:
         suicide(None, None)
-    if cornerDetected():
-       turnRight()
