@@ -1,166 +1,172 @@
 #!/usr/bin/env python
 
-# DIDDY; THE LEGO ROBOT SLAYER OF DOOM
+# =============================================================================
+# DIDDY, THE ROBOT SLAYER (v.01234)
+# =============================================================================
+PRODUCTION = False
 
-from ev3.lego import *
-from ev3.ev3dev import *
-from ev3.event_loop import *
+if PRODUCTION:
+    from ev3.lego import *
+    from ev3.ev3dev import *
+else:
+    from ev3.event_loop import *
+    from ev3stub import *
+
 from time import sleep
-import pprint, signal, sys, time
+import signal, sys, time, threading, logging
 
-# SETUP MOTORS
-motorRight = LargeMotor('C')
-motorLeft  = LargeMotor('B')
-SPEED = 30
-
-# CONTROLLER
-Kp = 0.6
-
-# SETUP COLOR SENSORS
-colorSensor = ColorSensor(1)
-cornerSensor = LightSensor(4)
-MAGIC_NUMBER = 17
-
-# SETUP ULTRASONIC SENSORS
-frontUltrasonicSensor = UltrasonicSensor(3)
-backUltrasonicSensor = UltrasonicSensor(2)
-
-# SETUP BUTTONS
-diddyKeyboard = Key()
-
-# SETUP LED
-diddyLED = LED()
-diddyLED.left.color = LED.COLOR.RED
-diddyLED.right.color = LED.COLOR.RED
-
-# PP
-pp = pprint.PrettyPrinter(indent = 1)
-
-def lineTrack(ref):
-    global errorSum
-    # Controller (proportional controller)
-    out = colorSensor.reflect
-    error = ref - out
-    # Kp = 0.6
-    u = error * Kp
-
-    # Limit output to maximum output
-    maxOutput = 100 - SPEED
-    if u > maxOutput:
-        u = maxOutput
-    elif u < -maxOutput:
-        u = -maxOutput
-
-    # Logging
-    #pp.pprint([out, error, u, ])
-
-    # Apply to motors
-    motorRight.run_forever(SPEED - u)
-    motorLeft.run_forever(SPEED + u)
-
-def cornerDetected():
-    if cornerSensor.reflect < 42 and isBlack():
-        return True
-    else:
-        return False
-
-def isBlack():
-    if colorSensor.reflect < MAGIC_NUMBER:
-        return True
-    else:
-        return False
-
-def turnRight():
-    motorRight.run_forever(-50)
-    motorLeft.run_forever(50)
-    sleep(0.5)
-
-def incoming():
-    distFront = frontUltrasonicSensor.dist_cm
-    distBack = backUltrasonicSensor.dist_cm / 10
-    if distFront < 15 or distBack < 15:
-        return True
-    else:
-        return False
-
-cond = lambda: True if frontUltrasonicSensor.dist_cm > 30 or (backUltrasonicSensor.dist_cm / 10) > 30 else False
-
-target_func = lambda x: pp.pprint("I SEE A SOMETHING")
-
-evt_loop = EventLoop()
-evt_loop.register_condition(cond, target_func, repeat=True, count=-1)
-evt_loop.start()
-
-def printLogo():
-    print """
-                                  /
-                   __       //
-                   -\= \=\ //
-                 --=_\=---//=--
-               -_==/  \/ //\/--
-                ==/   /O   O\==--
-   _ _ _ _     /_/    \  ]  /--
-  /\ ( (- \    /       ] ] ]==-
- (\ _\_\_\-\__/     \  (,_,)--
-(\_/                 \     \-
-\/      /       (   ( \  ] /)
-/      (         \   \_ \./ )
-(       \         \      )  \\
-(       /\_ _ _ _ /---/ /\_  \\
- \     / \     / ____/ /   \  \\
-  (   /   )   / /  /__ )   (  )
-  (  )   / __/ '---`       / /
-  \  /   \ \             _/ /
-  ] ]     )_\_         /__\/
-  /_\     ]___\\
- (___)
-    """
-
-def suicide(signal, frame):
-    print "YOU KILLED HER!"
-    motorRight.stop()
-    motorLeft.stop()
-    sys.exit(0)
-
-signal.signal(signal.SIGINT, suicide)
-
-# PRINT LOGO
-printLogo()
+# -----------------------------------------------------------------------------
+# HELPERS
+# -----------------------------------------------------------------------------
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='[%(levelname)s] %(message)s',
+)
 
 now = lambda: int(round(time.time() * 1000))
 
-maybeLostTime = 0
-diddyIsMaybeLost = False
-diddyIsLost = False
-
-while(True):
-    # Check state
-    if not isBlack() and not cornerDetected():
-        if (not diddyIsMaybeLost):
-            maybeLostTime = now()
-            diddyIsMaybeLost = True
-            #print "MAYBE LOST - CARRY ON..."
-        elif (diddyIsMaybeLost and now() > maybeLostTime + 1500):
-            diddyIsLost = True
+# -----------------------------------------------------------------------------
+# MONKEY PATCHING 'ColorSensor' + 'LightSensor' classes w. helpers
+# -----------------------------------------------------------------------------
+def seesBlack(self):
+    if self.reflect < self.threshold:
+        return True
     else:
-        diddyIsMaybeLost = False
-        diddyIsLost = False
+        return False
+ColorSensor.threshold = 0
+ColorSensor.seesBlack = seesBlack
+LightSensor.threshold = 0
+LightSensor.seesBlack = seesBlack
 
-    if diddyIsLost:
-        #print "LOST - RUN STRAIGHT"
-        motorRight.run_forever(50)
+# =============================================================================
+# MEGA-MONOLITHIC-ROBOT-CLASS-OF-DOOOOOM!
+# =============================================================================
+class Robot(object):
+    # -------------------------------------------------------------------------
+    # CONTRUCTOR; PROPERTY DEFINITIONS, SENSOR SETUP UZW.
+    # -------------------------------------------------------------------------
+    def __init__(self, mode):
+        # MODE (debug, verbose...)
+        if mode == "DEBUG":
+            self.DEBUG = True
+        else:
+            self.DEBUG = False
+        # Motors
+        self.motorRight = LargeMotor('C')
+        self.motorLeft  = LargeMotor('B')
+        # Speed & Control
+        self.SPEED      = 30
+        self.ref        = 17
+        self.Kp         = 0.6
+        # Line Sensors
+        self.lineSensor = ColorSensor(1)
+        self.caseSensor = LightSensor(4)
+        self.lineSensor.threshold = 17
+        self.caseSensor.threshold = 42
+        # Collision Sensors
+        self.frontSensor = UltrasonicSensor(3)
+        self.backSensor  = UltrasonicSensor(2)
+        # Buttons
+        self.keyboard    = Key()
+        # BOOT LOGO
+        self.bootTXT     = "boot.txt"
+        # STATE
+        self.doubtTimer = 0
+        self.state = "NORMAL"
+
+    # -------------------------------------------------------------------------
+    # STARTING / BOOTING / INIT.
+    # -------------------------------------------------------------------------
+    def boot(self):
+        # Display boot screen...
+        with open(self.bootTXT, 'r') as f:
+            print f.read()
+        self.start()
+
+    # Start the loop
+    def start(self):
+        # Attach KILL-signal event to exit method
+        signal.signal(signal.SIGINT, self.exit)
+        while True:
+            self.updateState()
+            if self.state == "LOST":
+                self.findTheLine()
+            if self.state == "NORMAL" or self.state == "DOUBT":
+                self.run()
+
+    # -------------------------------------------------------------------------
+    # STATE HANDLING
+    # -------------------------------------------------------------------------
+    def updateState(self):
+        if not self.lineSensor.seesBlack and not self.caseSensor.seesBlack:
+            if not self.state == "DOUBT":
+                self.doubtTimer = now()
+                self.state = "DOUBT"
+            elif self.state == "DOUBT" and (now() > self.doubtTimer + 1500):
+                self.state = "LOST"
+        else:
+            self.state = "NORMAL"
+
+    def run(self):
+        self.lineFollow()
+        if self.cornerDetected():
+            self.turnRight()
+
+    # -------------------------------------------------------------------------
+    # HELPER METHODS
+    # -------------------------------------------------------------------------
+    def cornerDetected(self):
+        if self.caseSensor.seesBlack() and self.lineSensor.seesBlack():
+            return True
+        else:
+            return False
+
+    def turnRight(self):
+        motorRight.run_forever(-50)
         motorLeft.run_forever(50)
-        if cornerSensor.reflect < 42:
-            while not isBlack():
+        sleep(0.5)
+
+    def findTheLine(self):
+        self.motorRight.run_forever(50)
+        self.motorLeft.run_forever(50)
+        if self.caseSensor.seesBlack():
+            while not self.lineSensor.seesBlack():
                 motorRight.run_forever(-10)
                 motorLeft.run_forever(30)
-            turnRight()
+                self.turnRight()
+    
+    # -------------------------------------------------------------------------
+    # LINE FOLLOWING
+    # -------------------------------------------------------------------------
+    def lineFollow(self):
+        y = self.lineSensor.reflect
+        error = self.ref - y
+        u = error * self.Kp
 
-    if not diddyIsLost:
-        #print "NOT LOST - RUN LINETRACK"
-        lineTrack(MAGIC_NUMBER)
-        if cornerDetected():
-            turnRight()
+        maxOutput = 100 - self.SPEED
+        if u > maxOutput:
+            u = maxOutput
+        elif u < -maxOutput:
+            u = -maxOutput
 
-    if diddyKeyboard.backspace:
-        suicide(None, None)
+        self.motorRight.run_forever(self.SPEED - u)
+        self.motorLeft.run_forever(self.SPEED + u)
+
+    # -------------------------------------------------------------------------
+    # EXITING
+    # -------------------------------------------------------------------------
+    def exit(self, sig, frame):
+        logging.debug("Exiting...")
+        self.motorRight.stop()
+        self.motorLeft.stop()
+        sys.exit(0)
+
+# =============================================================================
+# GENTLEMEN; START YOUR ENGINES!
+# =============================================================================
+
+# Construct DIDDY!
+DIDDY = Robot("DEBUG")
+
+# BOOT DIDDY - NO TURNING BACK!!!
+DIDDY.boot()
