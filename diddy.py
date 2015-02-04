@@ -107,6 +107,8 @@ signal.signal(signal.SIGINT, suicide)
 # PRINT LOGO
 printLogo()
 
+now = lambda: int(round(time.time() * 1000))
+
 maybeLostTime = 0
 diddyIsMaybeLost = False
 
@@ -118,9 +120,9 @@ while(True):
         print "GREY.ALL.OVER!"
         if (not diddyIsMaybeLost):
             print "FIRST TIME MAYBE LOST!"
-            maybeLostTime = time.now()
+            maybeLostTime = now()
             diddyIsMaybeLost = True
-        elif (diddyIsMaybeLost and time.now() > maybeLostTime + 500):
+        elif (diddyIsMaybeLost and now() > maybeLostTime + 500):
             print "LOST - RUN STRAIGHT"
             motorRight.run_forever(30)
             motorLeft.run_forever(30)
