@@ -23,9 +23,9 @@ def lineTrack(ref, Kp, Ki, Kd):
     u = error * Kp
     pp.pprint([out, error, u])
     
-    if u > 50
+    if u > 50:
         u = 50
-    elif u < -50
+    elif u < -50:
         u = -50
 
     # Apply to motors
