@@ -21,7 +21,7 @@ MAGIC_NUMBER = 17
 diddyKeyboard = Key()
 
 # CONTROLLER RELATED
-Kp = 0.75
+Kp = 2
 Ki = 0
 Kd = 0
 errorSum = 0
