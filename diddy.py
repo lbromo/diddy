@@ -27,6 +27,11 @@ backUltrasonicSensor = UltrasonicSensor(2)
 # SETUP BUTTONS
 diddyKeyboard = Key()
 
+# SETUP LED
+diddyLED = LED()
+diddyLED.left.color = LED.COLOR.RED
+diddyLED.right.color = LED.COLOR.RED
+
 # PP
 pp = pprint.PrettyPrinter(indent = 1)
 
@@ -151,15 +156,17 @@ while(True):
             turnRight()
 
 
-    if incoming() == "front":
+    if incoming() == "front" or incoming() == "back":
         #print "INCOMING - FRONT!", frontUltrasonicSensor.dist_cm
         SPEED = 60
         Kp = 0.85
-
-    if incoming() == "back":
-        #print "INCOMING - BACK!", backUltrasonicSensor.dist_cm/10
-        SPEED = 50
-        Kp = 0.75
+        led.left.on()
+        led.right.on()
+    else:
+        SPEED = 30
+        Kp = 0.6
+        led.left.off()
+        led.right.off()
 
     if diddyKeyboard.backspace:
         suicide(None, None)
