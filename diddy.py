@@ -21,8 +21,8 @@ cornerSensor = LightSensor(4)
 MAGIC_NUMBER = 17
 
 # SETUP ULTRASONIC SENSORS
-frontUltrasonicSensor = UltrasonicSensor(2)
-backUltrasonicSensor = UltrasonicSensor(3)
+frontUltrasonicSensor = UltrasonicSensor(3)
+backUltrasonicSensor = UltrasonicSensor(2)
 
 # SETUP BUTTONS
 diddyKeyboard = Key()
@@ -127,7 +127,7 @@ while(True):
         if (not diddyIsMaybeLost):
             maybeLostTime = now()
             diddyIsMaybeLost = True
-            print "MAYBE LOST - CARRY ON..."
+            #print "MAYBE LOST - CARRY ON..."
         elif (diddyIsMaybeLost and now() > maybeLostTime + 1500):
             diddyIsLost = True
     else:
@@ -135,7 +135,7 @@ while(True):
         diddyIsLost = False
 
     if diddyIsLost:
-        print "LOST - RUN STRAIGHT"
+        #print "LOST - RUN STRAIGHT"
         motorRight.run_forever(50)
         motorLeft.run_forever(50)
         if cornerSensor.reflect < 42:
@@ -145,7 +145,7 @@ while(True):
             turnRight()
 
     if not diddyIsLost:
-        print "NOT LOST - RUN LINETRACK"
+        #print "NOT LOST - RUN LINETRACK"
         lineTrack(MAGIC_NUMBER)
         if cornerDetected():
             turnRight()
