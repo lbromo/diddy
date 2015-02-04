@@ -60,16 +60,9 @@ def isBlack():
         return False
 
 def turnRight():
-    if not isBlack():
-        while not isBlack():
-            motorRight.run_forever(-30)
-            motorLeft.run_forever(-30)
-            while isBlack():
-                pass
-    else:
-        motorRight.run_forever(-50)
-        motorLeft.run_forever(50)
-        sleep(0.5)
+    motorRight.run_forever(-50)
+    motorLeft.run_forever(50)
+    sleep(0.5)
 
 def printLogo():
     print """
