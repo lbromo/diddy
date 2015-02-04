@@ -124,6 +124,11 @@ while(True):
         print "LOST - RUN STRAIGHT"
         motorRight.run_forever(30)
         motorLeft.run_forever(30)
+        if cornerSensor.reflect < 42:
+            while not isBlack():
+                motorRight.run_forever(0)
+                motorLeft.run_forever(30)
+            turnRight()
 
     if not diddyIsLost:
         print "NOT LOST - RUN LINETRACK"
