@@ -59,5 +59,5 @@ signal.signal(signal.SIGINT, suicide)
 while(True):
     # Line Tracking
     lineTrack(17)
-    if d.backspace:
+    if diddyKeyboard.backspace:
         suicide(None, None)
