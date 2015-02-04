@@ -79,7 +79,7 @@ def incoming():
     distBack = backUltrasonicSensor.dist_cm / 10
     if distFront < 30 or distBack < 30:
         return True
-    else
+    else:
         return False
 
 def printLogo():
