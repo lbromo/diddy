@@ -5,7 +5,7 @@
 from ev3.lego import *
 from ev3.ev3dev import *
 from time import sleep
-import pprint, signal, sys
+import pprint, signal, sys, time
 
 # SETUP MOTORS
 motorRight = LargeMotor('C')
@@ -107,11 +107,24 @@ signal.signal(signal.SIGINT, suicide)
 # PRINT LOGO
 printLogo()
 
+maybeLostTime = 0
+
 while(True):
     # Line Tracking
     lineTrack(MAGIC_NUMBER)
 
-    # If not
+    if not isBlack() and not cornerDetected():
+        print "GREY.ALL.OVER!"
+        if (not diddyIsMaybeLost):
+            print "FIRST TIME MAYBE LOST!"
+            maybeLostTime = time.now()
+            diddyIsMaybeLost = True
+        elif (diddyIsMaybeLost and time.now() > maybeLostTime + 500):
+            print "LOST - RUN STRAIGHT"
+            motorRight.run_forever(30)
+            motorLeft.run_forever(30)
+    else:
+        diddyIsMaybeLost = False
 
     if diddyKeyboard.backspace:
         suicide(None, None)
