@@ -112,6 +112,15 @@ class Robot(object):
         if self.cornerDetected():
             self.turnRight()
 
+    def findTheLine(self):
+        self.motorRight.run_forever(50)
+        self.motorLeft.run_forever(50)
+        if self.caseSensor.seesBlack():
+            while not self.lineSensor.seesBlack():
+                motorRight.run_forever(-10)
+                motorLeft.run_forever(30)
+                self.turnRight()
+
     # -------------------------------------------------------------------------
     # HELPER METHODS
     # -------------------------------------------------------------------------
@@ -125,15 +134,6 @@ class Robot(object):
         motorRight.run_forever(-50)
         motorLeft.run_forever(50)
         sleep(0.5)
-
-    def findTheLine(self):
-        self.motorRight.run_forever(50)
-        self.motorLeft.run_forever(50)
-        if self.caseSensor.seesBlack():
-            while not self.lineSensor.seesBlack():
-                motorRight.run_forever(-10)
-                motorLeft.run_forever(30)
-                self.turnRight()
     
     # -------------------------------------------------------------------------
     # LINE FOLLOWING
