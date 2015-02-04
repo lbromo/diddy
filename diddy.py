@@ -23,6 +23,8 @@ errorSum = 0
 pp = pprint.PrettyPrinter(indent=1)
 
 def lineTrack(ref):
+    global
+    errorSum
     # Controller
     out = colorSensor.reflect
     error = ref - out
