@@ -11,9 +11,11 @@ motorRight = LargeMotor('C')
 motorLeft  = LargeMotor('B')
 SPEED = 50
 
-# SETUP COLOR SENSOR
+# SETUP COLOR SENSORS
 colorSensor = ColorSensor(1)
-blackLimit = 15
+
+# SETUP BUTTONS
+diddyKeyboard = Key()
 
 # CONTROLLER RELATED
 Kp = 0.5
@@ -22,7 +24,7 @@ Kd = 0
 errorSum = 0
 
 # PP
-pp = pprint.PrettyPrinter(indent=1)
+pp = pprint.PrettyPrinter(indent = 1)
 
 def lineTrack(ref):
     global errorSum
@@ -32,20 +34,18 @@ def lineTrack(ref):
     errorSum = errorSum + error
     u = error * Kp + errorSum * Ki
 
-    
+    # Limit output
     if u > 50:
         u = 50
     elif u < -50:
         u = -50
 
+    # Logging
     pp.pprint([out, error, u])
 
     # Apply to motors
-    motorRight.run_forever(SPEED + u)
-    motorLeft.run_forever(SPEED - u)
-
-def logStatus():
-    pp.pprint([colorSensor.reflect])
+    motorRight.run_forever(SPEED - u)
+    motorLeft.run_forever(SPEED + u)
 
 def suicide(signal, frame):
     print "YOU KILLED HER!"
@@ -56,7 +56,7 @@ def suicide(signal, frame):
 signal.signal(signal.SIGINT, suicide)
 
 while(True):
-    # LOGGING
-    logStatus()
     # Line Tracking
     lineTrack(17)
+    if d.backspace:
+        suicide(None, None)
