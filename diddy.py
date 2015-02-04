@@ -59,10 +59,10 @@ def cornerDetected():
 def turnRight():
     motorRight.run_forever(-30)
     motorLeft.run_forever(-30)
-    sleep(0.1)
+    sleep(0.2)
     motorRight.run_forever(-50)
     motorLeft.run_forever(50)
-    sleep(0.25)
+    sleep(1)
     #while colorSensor.reflect > MAGIC_NUMBER:
     #    motorRight.run_forever(-50)
     #    motorLeft.run_forever(50)
