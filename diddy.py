@@ -110,11 +110,10 @@ while(True):
     
     # Check state
     if not isBlack() and not cornerDetected():
-        print "GREY.ALL.OVER!"
         if (not diddyIsMaybeLost):
-            print "FIRST TIME MAYBE LOST!"
             maybeLostTime = now()
             diddyIsMaybeLost = True
+            print "MAYBE LOST - CARRY ON..."
         elif (diddyIsMaybeLost and now() > maybeLostTime + 1500):
             diddyIsLost = True
     else:
@@ -127,6 +126,7 @@ while(True):
         motorLeft.run_forever(30)
 
     if not diddyIsLost:
+        print "NOT LOST - RUN LINETRACK"
         lineTrack(MAGIC_NUMBER)
         if cornerDetected():
             turnRight()
