@@ -62,7 +62,7 @@ def turnRight():
     sleep(0.2)
     motorRight.run_forever(-50)
     motorLeft.run_forever(50)
-    sleep(1)
+    sleep(0.63)
     #while colorSensor.reflect > MAGIC_NUMBER:
     #    motorRight.run_forever(-50)
     #    motorLeft.run_forever(50)
