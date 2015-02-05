@@ -96,6 +96,8 @@ class Robot(object):
                 self.isLost()
             if self.state == "NORMAL" or self.state == "DOUBT":
                 self.isNormal()
+            if self.keyboard.backspace:
+                self.exit()
 
     # -------------------------------------------------------------------------
     # STATE HANDLING
@@ -117,7 +119,7 @@ class Robot(object):
             logging.debug("ENEMY INCOMING!")
             #self.SPEED = self.SPEED * 2
         else:
-            pass
+            logging.debug("No enemy in sight...")
             #self.SPEED = 30
         self.lineFollow()
         if self.cornerDetected():
