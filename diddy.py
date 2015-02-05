@@ -90,7 +90,7 @@ class Robot(object):
         signal.signal(signal.SIGINT, self.exit)
         self.weaponOfDoom.run_forever(100)
         while True:
-            logging.debug(self.state)
+            #logging.debug(self.state)
             self.updateState()
             if self.state == "LOST":
                 self.isLost()
@@ -101,7 +101,7 @@ class Robot(object):
     # STATE HANDLING
     # -------------------------------------------------------------------------
     def updateState(self):
-        logging.debug("Updating state...")
+        #logging.debug("Updating state...")
         if not self.lineSensor.seesBlack() and not self.caseSensor.seesBlack():
             if self.state == "NORMAL":
                 self.doubtTimer = now()
@@ -114,9 +114,11 @@ class Robot(object):
     # What to do when state is normal
     def isNormal(self):
         if self.incomingEnemy():
-            self.SPEED = self.SPEED * 2
+            logging.debug("ENEMY INCOMING!")
+            #self.SPEED = self.SPEED * 2
         else:
-            self.SPEED = 30
+            pass
+            #self.SPEED = 30
         self.lineFollow()
         if self.cornerDetected():
             self.turnRight()
