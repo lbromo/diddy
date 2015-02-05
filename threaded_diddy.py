@@ -127,6 +127,7 @@ class Robot(object):
     # What to do when state is normal
     def isNormal(self):
         with enemy_flag_lock:
+            print enemy_flag
             if enemy_flag:
                 speed = 60
                 kp = 1.2
