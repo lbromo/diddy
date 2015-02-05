@@ -11,6 +11,17 @@ class LargeMotor(object):
     def run_forever(self, speed):
         return "SPEED = ", speed
 
+class MediumMotor(object):
+    def __init__(self, port):
+        self.port = port
+
+    def stop(self):
+        pass
+
+    def run_forever(self, speed):
+        return "SPEED = ", speed
+
+
 # ColorSensor class
 class ColorSensor(object):
     def __init__(self, port):
