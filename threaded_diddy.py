@@ -49,6 +49,7 @@ pid_lock = threading.Lock()
 kp = 0.6
 
 def incomingEnemy():
+    global speed_lock, pid_lock, speed, kp
     frontSensor = UltrasonicSensor(3)
     backSensor  = UltrasonicSensor(2)
 
@@ -75,6 +76,7 @@ def incomingEnemy():
 # MEGA-MONOLITHIC-ROBOT-CLASS-OF-DOOOOOM!
 # =============================================================================
 class Robot(object):
+    global speed_lock, pid_lock, speed, kp
     # -------------------------------------------------------------------------
     # CONTRUCTOR; PROPERTY DEFINITIONS, SENSOR SETUP UZW.
     # -------------------------------------------------------------------------
