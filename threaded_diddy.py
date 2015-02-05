@@ -3,7 +3,7 @@
 # =============================================================================
 # DIDDY, THE ROBOT SLAYER (v.01234)
 # =============================================================================
-PRODUCTION = True
+PRODUCTION = False
 
 if PRODUCTION:
     from ev3.lego import *
@@ -49,8 +49,6 @@ def incomingEnemy():
     global speed_lock, pid_lock, speed, kp
     frontSensor = UltrasonicSensor(3)
     backSensor  = UltrasonicSensor(2)
-
-    print "Doing stuff in thread"
 
     while(True):
         with enemy_flag_lock:
@@ -112,14 +110,7 @@ class Robot(object):
             if self.state == "LOST":
                 self.isLost()
             if self.state == "NORMAL" or self.state == "DOUBT":
-                with enemy_flag_lock:
-                    if(enemy_flag):
-                        speed = 60
-                        kp = 1.2
-                    else:
-                        speed = 30
-                        kp = 0.6
-                self.isNormal(speed)
+                self.isNormal()
             if self.keyboard.backspace:
                 self.exit(None, None)
 
@@ -139,7 +130,15 @@ class Robot(object):
 
     # What to do when state is normal
     def isNormal(self):
-        self.lineFollow()
+        with enemy_flag_lock:
+            if(enemy_flag):
+                speed = 60
+                kp = 1.2
+            else:
+                speed = 30
+                kp = 0.6
+
+        self.lineFollow(speed, kp)
         if self.cornerDetected():
             self.turnRight()
 
