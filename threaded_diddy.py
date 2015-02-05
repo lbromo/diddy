@@ -75,7 +75,6 @@ class Robot(object):
         self.motorLeft            = LargeMotor('B')
         # Speed & Control
         self.ref                  = 17
-        self.errorSum             = 0
         # Line Sensors
         self.lineSensor           = ColorSensor(1)
         self.caseSensor           = LightSensor(4)
@@ -134,15 +133,12 @@ class Robot(object):
             print enemy_flag
             if enemy_flag:
                 speed = 60
-                self.errorSum = 0
                 kp = 0.6
-                ki = 0.05
             else:
                 speed = 30
                 kp = 0.6
-                ki = 0
 
-        self.lineFollow(speed, kp, ki)
+        self.lineFollow(speed, kp)
         if self.cornerDetected():
             self.turnRight()
 
@@ -179,11 +175,10 @@ class Robot(object):
     # -------------------------------------------------------------------------
     # LINE FOLLOWING
     # -------------------------------------------------------------------------
-    def lineFollow(self, speed, kp, ki):
+    def lineFollow(self, speed, kp):
         y = self.lineSensor.reflect
         error = self.ref - y
-        self.errorSum += error
-        u = error * kp + self.errorSum * ki
+        u = error * kp
         
         maxOutput = 100 - speed
         if u >= maxOutput:
