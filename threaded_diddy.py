@@ -134,6 +134,7 @@ class Robot(object):
             print enemy_flag
             if enemy_flag:
                 speed = 60
+                self.errorSum = 0
                 kp = 0.6
                 ki = 0.05
             else:
