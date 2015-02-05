@@ -88,7 +88,7 @@ class Robot(object):
     def start(self):
         # Attach KILL-signal event to exit method
         signal.signal(signal.SIGINT, self.exit)
-        self.weaponOfDoom.run_forever(100)
+        self.weaponOfDoom.run_forever(-100)
         while True:
             #logging.debug(self.state)
             self.updateState()
@@ -137,7 +137,7 @@ class Robot(object):
     # HELPER METHODS
     # -------------------------------------------------------------------------
     def incomingEnemy(self):
-        return True if self.frontSensor < 30 else False
+        return True if self.frontSensor.dist_cm < 30 else False
 
     def cornerDetected(self):
         if self.caseSensor.seesBlack() and self.lineSensor.seesBlack():
