@@ -117,6 +117,8 @@ class Robot(object):
     def isNormal(self):
         if self.incomingEnemy():
             logging.debug("ENEMY INCOMING!")
+            logging.debug(frontSensor.dist_cm)
+            logging.debug(backSensor.dist_cm)
             self.SPEED = 60
             self.Kp = 1.0
         else:
