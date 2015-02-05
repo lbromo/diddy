@@ -3,15 +3,15 @@
 # =============================================================================
 # DIDDY, THE ROBOT SLAYER (v.01234)
 # =============================================================================
-PRODUCTION = False
+PRODUCTION = True
 
 if PRODUCTION:
     from ev3.lego import *
     from ev3.ev3dev import *
 else:
-    from ev3.event_loop import *
     from ev3stub import *
 
+from ev3.event_loop import *
 from time import sleep
 import signal, sys, time, threading, logging
 
@@ -117,8 +117,8 @@ class Robot(object):
         self.motorLeft.run_forever(50)
         if self.caseSensor.seesBlack():
             while not self.lineSensor.seesBlack():
-                motorRight.run_forever(-10)
-                motorLeft.run_forever(30)
+                self.motorRight.run_forever(-10)
+                self.motorLeft.run_forever(30)
                 self.turnRight()
 
     # -------------------------------------------------------------------------
@@ -131,8 +131,8 @@ class Robot(object):
             return False
 
     def turnRight(self):
-        motorRight.run_forever(-50)
-        motorLeft.run_forever(50)
+        self.motorRight.run_forever(-50)
+        self.motorLeft.run_forever(50)
         sleep(0.5)
     
     # -------------------------------------------------------------------------
