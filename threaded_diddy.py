@@ -182,7 +182,7 @@ class Robot(object):
         y = self.lineSensor.reflect
         error = self.ref - y
         self.errorSum += error
-        u = error * kp + errorSum * ki
+        u = error * kp + self.errorSum * ki
         
         maxOutput = 100 - speed
         if u >= maxOutput:
