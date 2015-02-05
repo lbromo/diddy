@@ -162,12 +162,17 @@ class Robot(object):
         error = self.ref - y
         u = error * self.Kp
 
+        logging.debug(u)
+
         maxOutput = 100 - self.SPEED
+
+        logging.debug(maxOutput)
         if u >= maxOutput:
             u = maxOutput
         elif u <= -maxOutput:
             u = -maxOutput
 
+        logging.debug(u)
         logging.debug(self.SPEED+u)
 
         self.motorRight.run_forever(self.SPEED - u)
