@@ -126,6 +126,7 @@ class Robot(object):
                 self.isNormal()
             if self.keyboard.backspace:
                 self.exit(None, None)
+            sleep(0.1)
 
     # -------------------------------------------------------------------------
     # STATE HANDLING
@@ -187,7 +188,7 @@ class Robot(object):
         with speed_lock, pid_lock:
             u = error * kp
             maxOutput = 100 - speed
-
+            print "SPEED", speed
             if u >= maxOutput:
                 u = maxOutput
             elif u <= -maxOutput:
