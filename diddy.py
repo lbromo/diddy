@@ -161,21 +161,12 @@ class Robot(object):
         y = self.lineSensor.reflect
         error = self.ref - y
         u = error * self.Kp
-
-        logging.debug("==> HVAD FANDEN SKER DER?")
-        logging.debug(u)
-        logging.debug(self.SPEED)
-
         maxOutput = 100 - self.SPEED
 
-        logging.debug(maxOutput)
         if u >= maxOutput:
             u = maxOutput
         elif u <= -maxOutput:
             u = -maxOutput
-
-        logging.debug(u)
-        logging.debug(self.SPEED+u)
 
         self.motorRight.run_forever(self.SPEED - u)
         self.motorLeft.run_forever(self.SPEED + u)
