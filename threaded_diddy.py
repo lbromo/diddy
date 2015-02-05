@@ -42,11 +42,8 @@ LightSensor.threshold = 0
 LightSensor.seesBlack = seesBlack
 
 # Sahred variables
-speed_lock = threading.Lock()
-speed = 30
-
-pid_lock = threading.Lock()
-kp = 0.6
+enemy_flag_lock = threading.Lock()
+enemy_flag = False
 
 def incomingEnemy():
     global speed_lock, pid_lock, speed, kp
@@ -56,19 +53,8 @@ def incomingEnemy():
     print "Doing stuff in thread"
 
     while(True):
-        print "Doing stuff in thread"
-        if frontSensor.dist_cm < 30 or (backSensor.dist_cm/10) < 30:
-            #print "ENEMY!!!"
-            with speed_lock, pid_lock:
-                #print "got lock"
-                speed = 60
-                kp = 1.2
-        else:
-            #print "NO enemy!!!"
-            with speed_lock, pid_lock:
-                #print "got lock"
-                speed = 30
-                kp = 0.6
+        with enemy_flag_lock:
+            enemy_flag = True if (frontSensor.dist_cm < 30) or ( (backSensor.dist_cm/10) < 30 ) else False
         sleep(0.1)
 
 
@@ -119,8 +105,6 @@ class Robot(object):
         # Attach KILL-signal event to exit method
         signal.signal(signal.SIGINT, self.exit)
         self.weaponOfDoom.run_forever(-100)
-        
-        global speed_lock, pid_lock, speed, kp
 
         while True:
             #logging.debug(self.state)
@@ -128,7 +112,14 @@ class Robot(object):
             if self.state == "LOST":
                 self.isLost()
             if self.state == "NORMAL" or self.state == "DOUBT":
-                self.isNormal()
+                with enemy_flag_lock:
+                    if(enemy_flag):
+                        speed = 60
+                        kp = 1.2
+                    else:
+                        speed = 30
+                        kp = 0.6
+                self.isNormal(speed)
             if self.keyboard.backspace:
                 self.exit(None, None)
 
@@ -185,21 +176,19 @@ class Robot(object):
     # -------------------------------------------------------------------------
     # LINE FOLLOWING
     # -------------------------------------------------------------------------
-    def lineFollow(self):
-        global speed_lock, pid_lock, speed, kp
+    def lineFollow(self, speed, kp):
         y = self.lineSensor.reflect
         error = self.ref - y
 
-        with speed_lock, pid_lock:
-            u = error * kp
-            maxOutput = 100 - speed
-            if u >= maxOutput:
-                u = maxOutput
-            elif u <= -maxOutput:
-                u = -maxOutput
-                
-            self.motorRight.run_forever(speed - u)
-            self.motorLeft.run_forever(speed + u)
+        u = error * kp
+        maxOutput = 100 - speed
+        if u >= maxOutput:
+            u = maxOutput
+        elif u <= -maxOutput:
+            u = -maxOutput
+            
+        self.motorRight.run_forever(speed - u)
+        self.motorLeft.run_forever(speed + u)
 
     # -------------------------------------------------------------------------
     # EXITING
