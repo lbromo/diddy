@@ -41,7 +41,7 @@ ColorSensor.seesBlack = seesBlack
 LightSensor.threshold = 0
 LightSensor.seesBlack = seesBlack
 
-# Sahred variables
+# Shared variables
 enemy_flag_lock = threading.Lock()
 enemy_flag = False
 
@@ -50,10 +50,9 @@ def incomingEnemy():
     frontSensor = UltrasonicSensor(3)
     backSensor  = UltrasonicSensor(2)
 
-    while(True):
+    while True:
         with enemy_flag_lock:
             enemy_flag = True if (frontSensor.dist_cm < 30) or ( (backSensor.dist_cm/10) < 30 ) else False
-            print "FLAG UPDATED: ", enemy_flag
         sleep(0.1)
 
 
@@ -130,10 +129,9 @@ class Robot(object):
     def isNormal(self):
         global enemy_flag_lock, enemy_flag
         with enemy_flag_lock:
-            print enemy_flag
             if enemy_flag:
                 speed = 80
-                kp = 0.6
+                kp = 0.85
             else:
                 speed = 30
                 kp = 0.6
