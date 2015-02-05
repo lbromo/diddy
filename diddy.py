@@ -97,7 +97,7 @@ class Robot(object):
             if self.state == "NORMAL" or self.state == "DOUBT":
                 self.isNormal()
             if self.keyboard.backspace:
-                self.exit()
+                self.exit(None, None)
 
     # -------------------------------------------------------------------------
     # STATE HANDLING
