@@ -58,18 +58,18 @@ def incomingEnemy():
     while(True):
         print "Doing stuff in thread"
         if frontSensor.dist_cm < 30 or (backSensor.dist_cm/10) < 30:
-            print "ENEMY!!!"
+            #print "ENEMY!!!"
             with speed_lock, pid_lock:
-                print "got lock"
+                #print "got lock"
                 speed = 60
                 kp = 1.2
         else:
-            print "NO enemy!!!"
+            #print "NO enemy!!!"
             with speed_lock, pid_lock:
-                print "got lock"
+                #print "got lock"
                 speed = 30
                 kp = 0.6
-        sleep(0.5)
+        sleep(0.1)
 
 
 # =============================================================================
@@ -131,7 +131,7 @@ class Robot(object):
                 self.isNormal()
             if self.keyboard.backspace:
                 self.exit(None, None)
-            sleep(0.1)
+            sleep(0.03)
 
     # -------------------------------------------------------------------------
     # STATE HANDLING
@@ -194,7 +194,6 @@ class Robot(object):
         with speed_lock, pid_lock:
             u = error * kp
             maxOutput = 100 - speed
-            print "SPEED", speed
             if u >= maxOutput:
                 u = maxOutput
             elif u <= -maxOutput:
