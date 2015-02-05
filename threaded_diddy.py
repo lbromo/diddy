@@ -52,9 +52,11 @@ def incomingEnemy():
     frontSensor = UltrasonicSensor(3)
     backSensor  = UltrasonicSensor(2)
 
+    print "Doing stuff in thread"
+
     while(True):
         print "Doing stuff in thread"
-        if frontSensor.dist_cm < 30 or (self.backSensor.dist_cm/10) < 30:
+        if frontSensor.dist_cm < 30 or (backSensor.dist_cm/10) < 30:
             print "ENEMY!!!"
             with speed_lock, pid_lock:
                 print "got lock"
