@@ -113,6 +113,10 @@ class Robot(object):
 
     # What to do when state is normal
     def isNormal(self):
+        if self.incomingEnemy():
+            self.SPEED = self.SPEED * 2
+        else:
+            self.SPEED = 30
         self.lineFollow()
         if self.cornerDetected():
             self.turnRight()
@@ -130,6 +134,9 @@ class Robot(object):
     # -------------------------------------------------------------------------
     # HELPER METHODS
     # -------------------------------------------------------------------------
+    def incomingEnemy(self):
+        return True if self.frontSensor < 30 else False
+
     def cornerDetected(self):
         if self.caseSensor.seesBlack() and self.lineSensor.seesBlack():
             return True
