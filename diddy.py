@@ -19,7 +19,7 @@ import signal, sys, time, threading, logging
 # HELPERS
 # -----------------------------------------------------------------------------
 logging.basicConfig(
-    level=logging.DEBUG,
+    level=logging.ERROR,
     format='[%(levelname)s] %(message)s',
 )
 
