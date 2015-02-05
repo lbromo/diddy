@@ -168,6 +168,8 @@ class Robot(object):
         elif u <= -maxOutput:
             u = -maxOutput
 
+        logging.debug(self.SPEED+u)
+
         self.motorRight.run_forever(self.SPEED - u)
         self.motorLeft.run_forever(self.SPEED + u)
 
