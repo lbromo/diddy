@@ -79,7 +79,7 @@ class Robot(object):
         self.lineSensor           = ColorSensor(1)
         self.caseSensor           = LightSensor(4)
         self.lineSensor.threshold = 17
-        self.caseSensor.threshold = 17
+        self.caseSensor.threshold = 42
         # Buttons
         self.keyboard             = Key()
         # BOOT LOGO
