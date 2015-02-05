@@ -165,6 +165,7 @@ class Robot(object):
         logging.debug("Exiting...")
         self.motorRight.stop()
         self.motorLeft.stop()
+        self.weaponOfDoom.stop()
         sys.exit(0)
 
 # =============================================================================
