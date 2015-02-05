@@ -99,7 +99,9 @@ class Robot(object):
     # STATE HANDLING
     # -------------------------------------------------------------------------
     def updateState(self):
+        logging.debug("Updating state...")
         if not self.lineSensor.seesBlack and not self.caseSensor.seesBlack:
+            logging.debug("Not white on both sensors {} {}", self.lineSensor.seesBlack, self.caseSensor.seesBlack)
             if not self.state == "DOUBT":
                 self.doubtTimer = now()
                 self.state = "DOUBT"
