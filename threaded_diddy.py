@@ -53,6 +53,9 @@ def incomingEnemy():
     while True:
         with enemy_flag_lock:
             enemy_flag = True if (frontSensor.dist_cm < 30) or ( (backSensor.dist_cm/10) < 30 ) else False
+        if enemy_flag:
+            print "FRONT:", frontSensor.dist_cm
+            print "BACK:", backSensor.dist_cm
         sleep(0.1)
 
 
