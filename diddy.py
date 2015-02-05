@@ -162,7 +162,9 @@ class Robot(object):
         error = self.ref - y
         u = error * self.Kp
 
+        logging.debug("==> HVAD FANDEN SKER DER?")
         logging.debug(u)
+        logging.debug(self.SPEED)
 
         maxOutput = 100 - self.SPEED
 
