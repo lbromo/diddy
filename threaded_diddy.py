@@ -52,6 +52,7 @@ def incomingEnemy():
     while(True):
         with enemy_flag_lock:
             enemy_flag = True if (frontSensor.dist_cm < 30) or ( (backSensor.dist_cm/10) < 30 ) else False
+            print "FLAG UPDATED: ", enemy_flag
         sleep(0.1)
 
 
