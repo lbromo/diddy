@@ -118,7 +118,7 @@ class Robot(object):
         if self.incomingEnemy():
             logging.debug("ENEMY INCOMING!")
             self.SPEED = 60
-            self.Kp = 1.2
+            self.Kp = 1.0
         else:
             logging.debug("No enemy in sight...")
             self.SPEED = 30
@@ -141,7 +141,10 @@ class Robot(object):
     # HELPER METHODS
     # -------------------------------------------------------------------------
     def incomingEnemy(self):
-        return True if self.frontSensor.dist_cm < 30 else False
+        if self.frontSensor.dist_cm < 30 or (self.backSensor.dist_cm/10) < 30:
+            return True
+        else:
+            return False
 
     def cornerDetected(self):
         if self.caseSensor.seesBlack() and self.lineSensor.seesBlack():
