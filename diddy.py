@@ -163,9 +163,9 @@ class Robot(object):
         u = error * self.Kp
 
         maxOutput = 100 - self.SPEED
-        if u > maxOutput:
+        if u >= maxOutput:
             u = maxOutput
-        elif u < -maxOutput:
+        elif u <= -maxOutput:
             u = -maxOutput
 
         self.motorRight.run_forever(self.SPEED - u)
