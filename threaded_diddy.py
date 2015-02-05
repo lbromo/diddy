@@ -150,8 +150,7 @@ class Robot(object):
         # !! M{ikke dansk bogstaver}SKE SKIDT => ER SET FOR{ikke danske bogstaver}RSAGE UENDELIG L{ikke danske bogstaver}KKE !!
         if self.caseSensor.seesBlack():
             start_rotatetime = now()
-            while not self.lineSensor.seesBlack() 
-            or (start_rotatetime + 1000) > now() :
+            while not self.lineSensor.seesBlack() or (start_rotatetime + 1000) > now():
                 self.motorRight.run_forever(-10)
                 self.motorLeft.run_forever(30)
                 self.turnRight()
