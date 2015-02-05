@@ -46,6 +46,7 @@ enemy_flag_lock = threading.Lock()
 enemy_flag = False
 
 def incomingEnemy():
+    global enemy_flag, enemy_flag_lock
     frontSensor = UltrasonicSensor(3)
     backSensor  = UltrasonicSensor(2)
 
@@ -127,6 +128,7 @@ class Robot(object):
 
     # What to do when state is normal
     def isNormal(self):
+        global enemy_flag_lock, enemy_flag
         with enemy_flag_lock:
             print enemy_flag
             if enemy_flag:
