@@ -117,10 +117,11 @@ class Robot(object):
     def isNormal(self):
         if self.incomingEnemy():
             logging.debug("ENEMY INCOMING!")
-            #self.SPEED = self.SPEED * 2
+            self.SPEED = self.SPEED * 2
+            self.Kp = self.Kp * 2
         else:
             logging.debug("No enemy in sight...")
-            #self.SPEED = 30
+            self.SPEED = 30
         self.lineFollow()
         if self.cornerDetected():
             self.turnRight()
