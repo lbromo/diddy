@@ -88,6 +88,7 @@ class Robot(object):
         # Attach KILL-signal event to exit method
         signal.signal(signal.SIGINT, self.exit)
         while True:
+            logging.debug(state)
             self.updateState()
             if self.state == "LOST":
                 self.findTheLine()
