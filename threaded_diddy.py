@@ -119,6 +119,9 @@ class Robot(object):
         # Attach KILL-signal event to exit method
         signal.signal(signal.SIGINT, self.exit)
         self.weaponOfDoom.run_forever(-100)
+        
+        global speed_lock, pid_lock, speed, kp
+
         while True:
             #logging.debug(self.state)
             self.updateState()
@@ -184,6 +187,7 @@ class Robot(object):
     # LINE FOLLOWING
     # -------------------------------------------------------------------------
     def lineFollow(self):
+        global speed_lock, pid_lock, speed, kp
         y = self.lineSensor.reflect
         error = self.ref - y
 
