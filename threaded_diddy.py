@@ -146,7 +146,7 @@ class Robot(object):
     def isLost(self):
         self.motorRight.run_forever(50)
         self.motorLeft.run_forever(50)
-        # !! MÅSKE SKIDT => ER SET FORÅRSAGE UENDELIG L{ikke danske bogstave}KKE !!
+        # !! M{ikke dansk bogstaver}SKE SKIDT => ER SET FORÅRSAGE UENDELIG L{ikke danske bogstaver}KKE !!
         if self.caseSensor.seesBlack():
             while not self.lineSensor.seesBlack():
                 self.motorRight.run_forever(-10)
