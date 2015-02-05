@@ -122,6 +122,7 @@ class Robot(object):
         else:
             logging.debug("No enemy in sight...")
             self.SPEED = 30
+            self.Kp = 0.6
         self.lineFollow()
         if self.cornerDetected():
             self.turnRight()
