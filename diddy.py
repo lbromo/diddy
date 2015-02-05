@@ -54,6 +54,7 @@ class Robot(object):
         # Motors
         self.motorRight = LargeMotor('C')
         self.motorLeft  = LargeMotor('B')
+        self.weaponOfDoom = MediumMotor('A')
         # Speed & Control
         self.SPEED      = 30
         self.ref        = 17
@@ -87,13 +88,14 @@ class Robot(object):
     def start(self):
         # Attach KILL-signal event to exit method
         signal.signal(signal.SIGINT, self.exit)
+        self.weaponOfDoom.run_forever(100)
         while True:
             logging.debug(self.state)
             self.updateState()
             if self.state == "LOST":
-                self.findTheLine()
+                self.isLost()
             if self.state == "NORMAL" or self.state == "DOUBT":
-                self.run()
+                self.isNormal()
 
     # -------------------------------------------------------------------------
     # STATE HANDLING
@@ -109,12 +111,14 @@ class Robot(object):
         else:
             self.state = "NORMAL"
 
-    def run(self):
+    # What to do when state is normal
+    def isNormal(self):
         self.lineFollow()
         if self.cornerDetected():
             self.turnRight()
 
-    def findTheLine(self):
+    # What to when lost
+    def isLost(self):
         self.motorRight.run_forever(50)
         self.motorLeft.run_forever(50)
         if self.caseSensor.seesBlack():
