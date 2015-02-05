@@ -104,7 +104,7 @@ class Robot(object):
             if not self.state == "DOUBT":
                 self.doubtTimer = now()
                 self.state = "DOUBT"
-            elif self.state == "DOUBT" and (now() > self.doubtTimer + 1500):
+            elif self.state == "DOUBT" and (now() > (self.doubtTimer + 1500)):
                 self.state = "LOST"
         else:
             self.state = "NORMAL"
