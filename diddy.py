@@ -116,13 +116,13 @@ class Robot(object):
     # What to do when state is normal
     def isNormal(self):
         if self.incomingEnemy():
-            logging.debug("ENEMY INCOMING!")
-            logging.debug(self.frontSensor.dist_cm)
-            logging.debug(self.backSensor.dist_cm)
+            #logging.debug("ENEMY INCOMING!")
+            #logging.debug(self.frontSensor.dist_cm)
+            #logging.debug(self.backSensor.dist_cm)
             self.SPEED = 60
             self.Kp = 1.0
         else:
-            logging.debug("No enemy in sight...")
+            #logging.debug("No enemy in sight...")
             self.SPEED = 30
             self.Kp = 0.6
         self.lineFollow()
