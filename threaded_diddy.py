@@ -131,7 +131,6 @@ class Robot(object):
                 self.isNormal()
             if self.keyboard.backspace:
                 self.exit(None, None)
-            sleep(0.03)
 
     # -------------------------------------------------------------------------
     # STATE HANDLING
