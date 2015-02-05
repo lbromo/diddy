@@ -133,7 +133,7 @@ class Robot(object):
             print enemy_flag
             if enemy_flag:
                 speed = 60
-                kp = 1.2
+                kp = 0.8
             else:
                 speed = 30
                 kp = 0.6
