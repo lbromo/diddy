@@ -46,7 +46,6 @@ enemy_flag_lock = threading.Lock()
 enemy_flag = False
 
 def incomingEnemy():
-    global speed_lock, pid_lock, speed, kp
     frontSensor = UltrasonicSensor(3)
     backSensor  = UltrasonicSensor(2)
 
@@ -60,7 +59,6 @@ def incomingEnemy():
 # MEGA-MONOLITHIC-ROBOT-CLASS-OF-DOOOOOM!
 # =============================================================================
 class Robot(object):
-    global speed_lock, pid_lock, speed, kp
     # -------------------------------------------------------------------------
     # CONTRUCTOR; PROPERTY DEFINITIONS, SENSOR SETUP UZW.
     # -------------------------------------------------------------------------
@@ -71,23 +69,22 @@ class Robot(object):
         else:
             self.DEBUG = False
         # Motors
-        self.motorRight = LargeMotor('C')
-        self.motorLeft  = LargeMotor('B')
-        self.weaponOfDoom = MediumMotor('A')
+        self.motorRight           = LargeMotor('C')
+        self.motorLeft            = LargeMotor('B')
         # Speed & Control
-        self.ref        = 17
+        self.ref                  = 17
         # Line Sensors
-        self.lineSensor = ColorSensor(1)
-        self.caseSensor = LightSensor(4)
+        self.lineSensor           = ColorSensor(1)
+        self.caseSensor           = LightSensor(4)
         self.lineSensor.threshold = 17
         self.caseSensor.threshold = 42
         # Buttons
-        self.keyboard    = Key()
+        self.keyboard             = Key()
         # BOOT LOGO
-        self.bootTXT     = "boot.txt"
+        self.bootTXT              = "boot.txt"
         # STATE
-        self.doubtTimer = 0
-        self.state = "NORMAL"
+        self.doubtTimer           = 0
+        self.state                = "NORMAL"
 
     # -------------------------------------------------------------------------
     # STARTING / BOOTING / INIT.
@@ -102,7 +99,6 @@ class Robot(object):
     def start(self):
         # Attach KILL-signal event to exit method
         signal.signal(signal.SIGINT, self.exit)
-        self.weaponOfDoom.run_forever(-100)
 
         while True:
             #logging.debug(self.state)
@@ -131,7 +127,7 @@ class Robot(object):
     # What to do when state is normal
     def isNormal(self):
         with enemy_flag_lock:
-            if(enemy_flag):
+            if enemy_flag:
                 speed = 60
                 kp = 1.2
             else:
@@ -196,14 +192,13 @@ class Robot(object):
         logging.debug("Exiting...")
         self.motorRight.stop()
         self.motorLeft.stop()
-        self.weaponOfDoom.stop()
         sys.exit(0)
 
 # =============================================================================
 # GENTLEMEN; START YOUR ENGINES!
 # =============================================================================
 
-t = threading.Thread(target=incomingEnemy)
+t = threading.Thread(target = incomingEnemy)
 
 if __name__ == '__main__':
     t.setDaemon(True)
@@ -212,5 +207,5 @@ if __name__ == '__main__':
     # Construct DIDDY!
     DIDDY = Robot("DEBUG")
 
-    # BOOT DIDDY - NO TURNING BACK!!!
-    DIDDY.boot()
+    # START DIDDY - NO TURNING BACK!!!
+    DIDDY.start()
