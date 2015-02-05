@@ -132,7 +132,7 @@ class Robot(object):
         with enemy_flag_lock:
             print enemy_flag
             if enemy_flag:
-                speed = 60
+                speed = 80
                 kp = 0.6
             else:
                 speed = 30
@@ -146,6 +146,7 @@ class Robot(object):
     def isLost(self):
         self.motorRight.run_forever(50)
         self.motorLeft.run_forever(50)
+        # !! MÅSKE SKIDT => ER SET FORÅRSAGE UENDELIG L{Y/Ø}KKE !!
         if self.caseSensor.seesBlack():
             while not self.lineSensor.seesBlack():
                 self.motorRight.run_forever(-10)
