@@ -143,7 +143,7 @@ class Robot(object):
     # HELPER METHODS
     # -------------------------------------------------------------------------
     def incomingEnemy(self):
-        if self.frontSensor.dist_cm < 30 or (self.backSensor.dist_cm/10) < 30:
+        if self.frontSensor.dist_cm < 30: #or (self.backSensor.dist_cm/10) < 30:
             return True
         else:
             return False
